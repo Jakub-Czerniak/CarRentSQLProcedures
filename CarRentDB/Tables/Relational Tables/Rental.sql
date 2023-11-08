@@ -1,0 +1,5 @@
+﻿CREATE TABLE Rental
+(
+	Id NUMBER PRIMARY KEY,
+	Localisation NVARCHAR(255) NOT NULL UNIQUE
+);
