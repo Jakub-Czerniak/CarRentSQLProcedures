@@ -52,6 +52,33 @@
     <DBRefs Include="Database References\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Procedures\AddCar.sql">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Procedures\AddNewRent.sql">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Procedures\AvailableCarList.sql">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Procedures\CarRents.sql">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Procedures\CustomerRents.sql">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Procedures\Login.sql">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Procedures\RemoveCar.sql">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Procedures\ReturnCar.sql">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Procedures\SetPaidRent.sql">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Tables\Relational Tables\Car.sql">
       <SubType>Content</SubType>
     </Content>
