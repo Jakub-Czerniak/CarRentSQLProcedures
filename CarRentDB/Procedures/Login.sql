@@ -1,37 +1,18 @@
-﻿-- Procedure definition
-
-CREATE PROCEDURE PROCEDURE1 (
-  PARAM1 IN NUMBER) IS
-
--- Declare constants and variables in this section.
--- Example: <Variable Identifier> <DATATYPE>
---          <Variable Identifier> CONSTANT <DATATYPE>
---          varEname  VARCHAR2(40);
---          varComm   REAL;
---          varSalary CONSTANT NUMBER:=1000;
---          comm_missing EXCEPTION;
-  varSum NUMBER;
-
--- Executable part starts here
+﻿CREATE PROCEDURE Login 
+(
+  Email IN NVARCHAR2(255),
+  Password IN VARCHAR(128),
+  WorkerId OUT NUMBER,
+  Name OUT NVARCHAR2(255),
+  Surname OUT NVARCHAR2(255),
+  Email OUT NVARCHAR2(255),
+  Localisation OUT NVARCHAR2(255),
+  Position OUT NVARCHAR2(255)
+) 
+AS
 BEGIN
-
-  -- Write PL/SQL and SQL statements to implement the processing logic
-  -- of subprogram. Example:
-  --     SELECT ENAME,
-  --            COMM
-  --     INTO   varEname,
-  --            varComm
-  --     FROM   EMP
-  --     WHERE  EMPNO = 7369;
-  --
-  --     IF varComm IS NULL THEN
-  --         RAISE comm_missing;
-  --     END IF;
-
-  NULL;
-
-  -- EXCEPTION -- exception-handling part starts here
-  -- WHEN comm_missing THEN
-  --   dbms_output.put_line('Commision is NULL');
-
-END PROCEDURE1;
+  SELECT Worker.Id AS WorkerId, Worker.Name, Worker.Surname, Worker.Email, Rental.Localisation, Position.Position 
+  FROM Worker WHERE Worker.Email = @Email AND Worker.Password = @Password
+  INNER JOIN Position ON Worker.PositionId = Position.Id
+  INNER JOIN Rental ON Worker.RentalId = Rental.Id
+END Login;

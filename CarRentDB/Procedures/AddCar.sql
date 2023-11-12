@@ -1,10 +1,10 @@
 ﻿CREATE PROCEDURE AddCar 
 (
-Price IN NUMBER(6,2),
-RegistrationNumber IN NUMBER,
-Make IN NVARCHAR(255),
-Model IN NVARCHAR(255),
-Localisation IN NVARCHAR(255)
+  Price IN NUMBER(6,2),
+  RegistrationNumber IN NUMBER,
+  Make IN NVARCHAR2(255),
+  Model IN NVARCHAR2(255),
+  Localisation IN NVARCHAR2(255)
 ) 
 AS
   varMakeId NUMBER;
