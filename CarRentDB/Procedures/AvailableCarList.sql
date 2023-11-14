@@ -1,37 +1,19 @@
 ﻿-- Procedure definition
 
-CREATE PROCEDURE PROCEDURE1 (
-  PARAM1 IN NUMBER) IS
-
--- Declare constants and variables in this section.
--- Example: <Variable Identifier> <DATATYPE>
---          <Variable Identifier> CONSTANT <DATATYPE>
---          varEname  VARCHAR2(40);
---          varComm   REAL;
---          varSalary CONSTANT NUMBER:=1000;
---          comm_missing EXCEPTION;
-  varSum NUMBER;
-
--- Executable part starts here
+CREATE PROCEDURE AvaibleCarList 
+(
+  RentalId IN NUMBER,
+  Id OUT NUMBER,
+  Price OUT NUMBER(6,2),
+  RegistrationNumber OUT NVARCHAR2(5),
+  Make OUT NVARCHAR2(50),
+  Model OUT NVARCHAR2(100)
+) 
+AS
 BEGIN
+SELECT Car.Id, Car.Price, Car.RegistrationNumber, Make.Make, Make.Model FROM Car 
+  WHERE CarRent.ReturnDate IS NOT NULL
+  INNER JOIN CarRent ON CarRent.CarId = Car.Id
+  INNER JOIN Model ON Model.Id = Car.ModelId
 
-  -- Write PL/SQL and SQL statements to implement the processing logic
-  -- of subprogram. Example:
-  --     SELECT ENAME,
-  --            COMM
-  --     INTO   varEname,
-  --            varComm
-  --     FROM   EMP
-  --     WHERE  EMPNO = 7369;
-  --
-  --     IF varComm IS NULL THEN
-  --         RAISE comm_missing;
-  --     END IF;
-
-  NULL;
-
-  -- EXCEPTION -- exception-handling part starts here
-  -- WHEN comm_missing THEN
-  --   dbms_output.put_line('Commision is NULL');
-
-END PROCEDURE1;
+END AvaibleCarList;
