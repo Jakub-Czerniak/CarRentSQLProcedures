@@ -1,34 +1,27 @@
-﻿CREATE PROCEDURE AddCar 
+﻿CREATE OR REPLACE PROCEDURE AddCar 
 (
-Price IN NUMBER(6,2),
+Price IN NUMBER,
 RegistrationNumber IN NUMBER,
-Make IN NVARCHAR(255),
-Model IN NVARCHAR(255),
-Localisation IN NVARCHAR(255)
+Make IN NVARCHAR2,
+Model IN NVARCHAR2,
+Localisation IN NVARCHAR2
 ) 
 AS
+  varCountId NUMBER;
   varMakeId NUMBER;
-  varRentalId
-  localisation_missing EXCEPTION;
+  varRentalId NUMBER;
 
 BEGIN
-  IF EXISTS(SELECT Id, Make, Model FROM Make WHERE Make = @Make AND Model = @Model)
+  SELECT COUNT(Id) INTO varCountId FROM Make WHERE Make = AddCar.Make AND Model = AddCar.Model;
+  IF (varCountId = 1)
     THEN 
-      varMakeId = Id
+      SELECT Id INTO varMakeId FROM Make WHERE Make = AddCar.Make AND Model = AddCar.Model;
     ELSE
-      INSERT INTO Make (Make, Model) VALUES (@Make, @Model) RETURNING Id INTO varMakeId
+      INSERT INTO Make (Make, Model) VALUES (AddCar.Make, AddCar.Model) RETURNING Id INTO varMakeId;
   END IF;
 
-  SELECT Id INTO varRentalId FROM Rental WHERE Localisation = @Localisation;
+  SELECT Id INTO varRentalId FROM Rental WHERE Localisation = AddCar.Localisation;
 
-  IF varRentalId IS NULL THEN RAISE localisation_missing;
-  END IF;
-
-  INSERT INTO Car (Price, RegistrationNumber, MakeId, RentalId) VALUES (@Price, @RegistrationNumber, varMakeId, varRentalId)
-
-  NULL;
-
-  WHEN localisation_missing THEN
-    dbms_output.put_line('Localisation does not correspond to any rental.');
+  INSERT INTO Car (Price, RegistrationNumber, MakeId, RentalId) VALUES (AddCar.Price, AddCar.RegistrationNumber, varMakeId, varRentalId);
 
 END AddCar;
