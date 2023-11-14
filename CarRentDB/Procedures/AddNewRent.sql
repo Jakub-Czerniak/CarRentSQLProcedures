@@ -2,11 +2,11 @@
 (
   CarId IN NUMBER,
   WorkerId IN NUMBER,
-  CustomerDocumentId IN NVARCHAR2(255),
+  CustomerDocumentId IN NVARCHAR2,
   RentalId IN NUMBER,
   RentTime IN NUMBER,
-  CustomerName IN NVARCHAR2(255),
-  CustomerSurname IN NVARCHAR2(255)
+  CustomerName IN NVARCHAR2,
+  CustomerSurname IN NVARCHAR2
 ) 
 AS
   varCustomerId NUMBER
@@ -24,7 +24,6 @@ BEGIN
   INSERT INTO CarRent(CustomerId, WorkerId, CarId, RentDate, ExpectedReturnDate, IsPaid)
     VALUES(varCustomerId, @WorkerId, @CarId, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + NUMTODSINTERVAL(RentTime,'day'), 'N')
 
-  NULL;
 
   WHEN documentid_name_not_matched THEN
     dbms_output.put_line('DocumentId previously used for different Name or Surname');

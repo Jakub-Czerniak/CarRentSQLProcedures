@@ -1,13 +1,14 @@
 ﻿CREATE PROCEDURE Login 
 (
-  Email IN NVARCHAR2(255),
-  Password IN VARCHAR(128),
+  Email IN NVARCHAR2,
+  Password IN VARCHAR,
   WorkerId OUT NUMBER,
-  Name OUT NVARCHAR2(255),
-  Surname OUT NVARCHAR2(255),
-  Email OUT NVARCHAR2(255),
-  Localisation OUT NVARCHAR2(255),
-  Position OUT NVARCHAR2(255)
+  Name OUT NVARCHAR2,
+  Surname OUT NVARCHAR2,
+  Email OUT NVARCHAR2,
+  RentalId OUT NUMBER,
+  Localisation OUT NVARCHAR2,
+  Position OUT NVARCHAR2
 ) 
 AS
 BEGIN
