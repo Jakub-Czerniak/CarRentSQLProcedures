@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE AddNewRent 
+﻿CREATE OR REPLACE PROCEDURE AddNewRent 
 (
   CarId IN NUMBER,
   WorkerId IN NUMBER,
@@ -9,23 +9,17 @@
   CustomerSurname IN NVARCHAR2
 ) 
 AS
-  varCustomerId NUMBER
-  documentid_name_not_matched EXCEPTION;
-
+  varCustomerId NUMBER;
+  varCountCustomer NUMBER;
 BEGIN
-  IF EXISTS (SELECT Id FROM Customer INTO varCustomerId WHERE DocumentId = @CustomDocumentId)
-    IF EXISTS (SELECT * FROM Customer WHERE varCustomerId = Id AND Name = @CustomerName AND Surname = @CustomerSurname)
-    ELSE RAISE documentid_name_not_matched
-    END IF;
+  SELECT COUNT(Id) INTO varCountCustomer FROM Customer WHERE DocumentId = AddNewRent.CustomerDocumentId;
+  IF (varCountCustomer > 0)
+  THEN
+    SELECT Id INTO varCustomerId FROM Customer WHERE Name = AddNewRent.CustomerName AND Surname = AddNewRent.CustomerSurname AND DocumentId = AddNewRent.CustomerDocumentId;
   ELSE 
-    INSERT INTO Customer (Name, Surname, DocumentId, RentalId) VALUES (@CustomerName, @CustomerSurname, @DocumentId, @RentalId) RETURNING Id INTO varCustomerId
+    INSERT INTO Customer (Name, Surname, DocumentId, RentalId) VALUES (AddNewRent.CustomerName, AddNewRent.CustomerSurname, AddNewRent.CustomerDocumentId, AddNewRent.RentalId) RETURNING Id INTO varCustomerId;
   END IF;
-
+  
   INSERT INTO CarRent(CustomerId, WorkerId, CarId, RentDate, ExpectedReturnDate, IsPaid)
-    VALUES(varCustomerId, @WorkerId, @CarId, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + NUMTODSINTERVAL(RentTime,'day'), 'N')
-
-
-  WHEN documentid_name_not_matched THEN
-    dbms_output.put_line('DocumentId previously used for different Name or Surname');
-
+    VALUES(varCustomerId, AddNewRent.WorkerId, AddNewRent.CarId, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + NUMTODSINTERVAL(RentTime,'day'), 'N');
 END AddNewRent;

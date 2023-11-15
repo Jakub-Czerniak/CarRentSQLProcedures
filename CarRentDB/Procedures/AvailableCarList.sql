@@ -12,8 +12,12 @@ BEGIN
 SELECT Car.Id, Car.Price, Car.RegistrationNumber, Make.Make, Make.Model 
   INTO AvaibleCarList.Id, AvaibleCarList.Price, AvaibleCarList.RegistrationNumber, AvaibleCarList.Make, AvaibleCarList.Model
   FROM Car 
-  INNER JOIN CarRent ON CarRent.ReturnDate IS NOT NULL AND CarRent.CarId = Car.Id
   INNER JOIN Make ON Make.Id = Car.MakeId
   LEFT JOIN CarRent ON CarRent.CarId = Car.Id 
-  WHERE CarRent.CarId IS NULL;
+  WHERE CarRent.CarId IS NULL
+  UNION
+  SELECT Car.Id, Car.Price, Car.RegistrationNumber, Make.Make, Make.Model 
+  FROM Car 
+  INNER JOIN CarRent ON CarRent.ReturnDate IS NOT NULL AND CarRent.CarId = Car.Id
+  INNER JOIN Make ON Make.Id = Car.MakeId;
 END AvaibleCarList;
