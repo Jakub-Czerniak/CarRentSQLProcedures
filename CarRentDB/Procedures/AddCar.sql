@@ -1,7 +1,7 @@
 ﻿CREATE OR REPLACE PROCEDURE AddCar 
 (
 Price IN NUMBER,
-RegistrationNumber IN NUMBER,
+RegistrationNumber IN NVARCHAR2,
 Make IN NVARCHAR2,
 Model IN NVARCHAR2,
 Localisation IN NVARCHAR2
